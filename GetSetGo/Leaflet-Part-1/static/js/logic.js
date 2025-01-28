@@ -15,9 +15,9 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geoj
     // This function returns the style data for each of the earthquakes we plot on the map.
     function styleInfo(feature) {
         return {
-            stroke: false,
-            fillOpacity: 0.75,
-            color: getColor(feature.geometry.coordinates[2]),
+            stroke: true,
+            fillOpacity: 0.9,
+            color: "black",
             fillColor: getColor(feature.geometry.coordinates[2]),
             radius: getRadius(feature.properties.mag)
         };
@@ -25,14 +25,12 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geoj
 
     // This function determines the color of the marker based on the depth of the earthquake.
     function getColor(depth) {
-        if (depth <= 10 && depth >= 0) return "white";
-        else if (depth <= 20 && depth > 10) return "blue";
-        else if (depth <= 30 && depth > 20) return "green";
-        else if (depth <= 50 && depth > 30) return "yellow";
-        else if (depth <= 70 && depth > 50) return "orange";
-        else if (depth <= 90 && depth > 70) return "red";
-        else if (depth <= 110 && depth > 90) return "purple";
-        else return "black";
+        if (depth < 10 && depth >= -10) return "green";
+        else if (depth < 30 && depth >= 10) return "greenyellow";
+        else if (depth < 50 && depth >= 30) return "yellow";
+        else if (depth < 70 && depth >= 50) return "orange";
+        else if (depth < 90 && depth >= 70) return "orangered";
+        else return "red";
     }
 
     // This function determines the radius of the earthquake marker based on its magnitude.
@@ -67,8 +65,8 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geoj
         let div = L.DomUtil.create("div", "info legend");
 
         // Initialize depth intervals and colors for the legend
-        let depths = [0, 10, 20, 30, 50, 70, 90, 110];
-        let colors = ["white", "blue", "green", "yellow", "orange", "red", "purple", "black"];
+        let depths = [-10, 10, 30, 50, 70, 90];
+        let colors = ["green", "greenyellow", "yellow", "orange", "orangered", "red"];
 
         // Loop through our depth intervals to generate a label with a colored square for each interval.
         for (let i = 0; i < depths.length; i++) {
